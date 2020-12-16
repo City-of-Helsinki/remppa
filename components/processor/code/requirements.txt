@@ -1,0 +1,8 @@
+filterpy==1.4.5
+imagehash==4.1.0
+lap==0.4.0
+opencv-python==4.4.0.44
+parse==1.18.0
+pytest==6.1.2
+pyAesCrypt==0.4.3
+scikit-image==0.17.2

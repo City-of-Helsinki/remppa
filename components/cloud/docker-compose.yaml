@@ -1,0 +1,16 @@
+version: '3.2'
+
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "${EXPOSE}:80"
+    volumes:
+      - ./data/:/code/data/
+    restart: unless-stopped
+    env_file:
+      - '.env'
+
+

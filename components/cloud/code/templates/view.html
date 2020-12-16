@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+<div>
+<img id=small>
+<img id=crop>
+</div>
+<script>
+small_url="{{ small_url }}";
+crop_url="{{ crop_url }}";
+update_url="{{ url_for('ajax_get_state', id=id) }}"
+init();
+</script>
+
+
+<div id=form>
+<form action="" method="post" novalidate>
+
+<label for="mode">Choose mode:</label>
+
+<select name="mode" id="mode">
+  <option value="detect" {% if state['server']['mode'] == 'detect' %}selected{% endif %}>detect</option>
+  <option value="record" {% if state['server']['mode'] == 'record' %}selected{% endif %}>record</option>
+  <option value="calibrate" {% if state['server']['mode'] == 'calibrate' %}selected{% endif %}>calibrate</option>
+  <option value="pause" {% if state['server']['mode'] == 'pause' %}selected{% endif %}>pause</option>
+</select>
+<br>Exposure modifier
+<input type="text" size=5 value="{{ state['server']['exposure_modifier'] }}" name="exposure_modifier">
+<br>
+<input type=submit value=save>
+</form>
+</div>
+<div>
+Current state
+</div>
+<pre id=state_view>{{ state_view }}</pre>
+
+
+<a href="javascript:window.location.href=window.location.href">reload</a>
+{% endblock %}

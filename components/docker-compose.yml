@@ -1,0 +1,91 @@
+version: "3"
+
+services:
+  database:
+    image: "postgres"
+    env_file:
+      - database.env
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+  database-init:
+    depends_on:
+      - database
+    build:
+      context: database
+      dockerfile: Dockerfile
+    env_file:
+      - database.env
+    command: python dbinit.py
+
+  database-import:
+    depends_on:
+      - database
+    build:
+      context: database
+      dockerfile: Dockerfile
+    volumes:
+      - "${PWD}/database-import:/database-import"
+    env_file:
+      - database.env
+    environment:
+      - DEBUG=${DEBUG}
+      - DATABASE_IMPORT=${DATABASE_IMPORT}
+      - HASH_SALT=${HASH_SALT}
+    command: python dbimport.py
+
+  reporter:
+    depends_on:
+      - database
+    build:
+      context: database
+      dockerfile: Dockerfile
+    env_file:
+      - database.env
+    environment:
+      - DEBUG=${DEBUG}
+    command: python report.py
+
+  processor:
+    build: ./processor
+    environment:
+      - RUNNING_IN_DOCKER=true
+      - VIDEO_PATH=/home/kilpi/videos
+      - MASK_PATH=/home/kilpi/masks
+      - WARP_PATH=/home/kilpi/warps
+      - OUTPUT_PATH=/home/kilpi/crop_images
+      - THRESHOLD=0
+      - ENCRYPT_PASSWORD=${ENCRYPT_PASSWORD}
+      - CB_COLS=5
+      - CB_ROWS=3
+      - WARP_CB_PATH=/home/kilpi/warp_cb_images
+      - UPLOAD_URL=${UPLOAD_URL}
+      - UPLOAD_ID=${UPLOAD_ID}
+      - UPLOAD_TOKEN=${UPLOAD_TOKEN}
+      - SAVE_PATH=${SAVE_PATH}
+      - INITIAL_MODE=pause
+      - DEBUG=${DEBUG}
+      - YOLO5_WEIGHTS=${YOLO5_WEIGHTS}
+    volumes:
+      - "${PWD}/processor:/home/kilpi"
+
+  reader:
+    build: ./reader
+    env_file:
+      - database.env
+    environment:
+      - POLL_FOLDER=/home/kilpi/crop_images
+      - VISU_FOLDER=/home/kilpi/visualization
+      - DEBUG=${DEBUG}
+      - HASH_SALT=${HASH_SALT}
+      - ENCRYPT_PASSWORD=${ENCRYPT_PASSWORD}
+      - OPENALPR_CONFIG=/openalpr.conf
+      - ROI=${ROI}
+      - LOG_PLAINTEXT_PLATE=${LOG_PLAINTEXT_PLATE}
+    volumes:
+      - "${PWD}/processor:/home/kilpi"
+
+volumes:
+  database-data:
