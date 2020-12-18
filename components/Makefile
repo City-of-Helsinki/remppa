@@ -31,7 +31,7 @@ build: ## Build components
 clean: stop ## Shutdown, and remove all data
 	$(DC) down -v --remove-orphans
 
-daemon: dirs build start-db start-reader start-processor ## Run all services in background
+daemon: dirs build start-db start-processor start-reader ## Run all services in background
 
 stop: ## Stop all services
 	$(DC) stop
