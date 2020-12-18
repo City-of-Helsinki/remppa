@@ -13,19 +13,24 @@ Aim of the software:
 - Images are not sent out, or saved for long periods of time, to prevent
   personal information leaks.
 
-
 Hardware:
-- Nvidia Jetson AGX Xavier
-- ecam-130
+- NVIDIA Jetson AGX Xavier
+- e-con Systems e-CAM130A_CUXVR - Multiple Camera Board for NVIDIA Jetson AGX Xavier
 
+## Developer information
 
-Components folder contains the software components, that can be tested by
-using Docker. The actual run environment scripts are in the AGX/ folder
+The [Components](components/) folder contains the software
+components and more information on the testing and development of the
+modules.
 
-Code contains some test material:
+The actual run environment installation and running scripts are in the
+[AGX](AGX/) folder.
+
+The Code contains some test material to get started:
 - [License plate for reader](components/reader/code/tests/test_files/plate1.jpg)
 - [Test video](components/processor/videos/demo.mp4)
 - [ROI mask](components/processor/masks/demo.png)
+
 
 
 This project is licensed as GNU AFFERO GENERAL PUBLIC LICENSE v3

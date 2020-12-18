@@ -14,6 +14,9 @@ echo '==============================================================='
 cat "$0"
 exit 1
 
+# NOTE:
+#   This script assumes /mnt/m2 is mounted, and has plenty of
+#   disk space.
 
 ## CUDA should be installed by jetpack or AGX base image!
 ## Run as the user running services. There are a lot of `sudo` commands!
@@ -25,8 +28,19 @@ sudo nvpmodel -m 0
 
 ## the Basics, some are for developing...
 
-sudo apt install python3-dev curl python3-venv virtualenv pv mc encfs \
-                 rsync multitail encfs imagemagick
+sudo apt-get install -y \
+    python3-dev \
+    curl \
+    encfs \
+    imagemagick \
+    mc \
+    multitail \
+    pv \
+    python3-venv \
+    rsync \
+    virtualenv \
+
+
 curl -L https://bootstrap.pypa.io/get-pip.py | sudo python3
 . ~/.profile
 
@@ -35,7 +49,11 @@ curl -L https://bootstrap.pypa.io/get-pip.py | sudo python3
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
 sudo apt-get update
-sudo apt-get install postgresql postgresql-contrib libpq-dev
+sudo apt-get install -y \
+    postgresql \
+    postgresql-contrib \
+    libpq-dev \
+
 
 . <( cat database.env | grep ^[A-Z] | sed 's/^/export /' )
 
@@ -93,6 +111,7 @@ sudo apt-get install -y \
     virtualenv \
     zlib1g-dev \
 
+sudo apt-get clean
 
 ## pip packages
 pip3 install \
