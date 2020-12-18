@@ -225,7 +225,7 @@ class PlateReader:
 
 
 if __name__ == "__main__":
-    roi_id = int(os.getenv("ROI", "00"))
+    roi_id = int(os.getenv("ROI", "0"))
 
     plate_reader = PlateReader(roi_id)
     plate_reader.start()

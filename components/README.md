@@ -19,6 +19,7 @@ HASH_SALT=bBV8cb29wcecz
 DATABASE_IMPORT=/database-import/import.csv
 YOLO5_WEIGHTS=/tmp/yolov5s.pt
 LOG_PLAINTEXT_PLATE=False
+ROI=0
 ```
 
 - HASH_SALT is used to create unique hashes of each license plate
@@ -29,6 +30,8 @@ LOG_PLAINTEXT_PLATE=False
   not encouraged to be used.
 - LOG_PLAINTEXT_PLATE when set True, print the plaintext license
   plate in the log. This setting should not be used in production.
+- ROI: The Region of interest index to follow with plate reader. Increase if
+  you have more than one ROI, and you want to read from another ROI.
 
 ## Database
 
